@@ -11,7 +11,7 @@ public class PlayerUnit : MonoBehaviour
 	private bool dragging = false;
 
 
-	[Tooltip("How far the ship can be moved in tiles.")]
+	[Tooltip("How far the unit can be moved in tiles.")]
 	public int movementPerRound = 4;
 	private int remainingMovement = 0;
 
@@ -33,7 +33,7 @@ public class PlayerUnit : MonoBehaviour
 			{
 				RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosWorld, mousePosWorld + new Vector3(0, 0, 1), 200);
 				foreach (RaycastHit2D hit in hits)
-					if (hit.collider.CompareTag("Player"))
+					if (hit.collider.gameObject == this.gameObject)
 					{
 						ghost = Instantiate(ghostPrefab.gameObject, transform.position, transform.rotation).GetComponent<Ghost>();
 						dragging = true;
@@ -42,10 +42,11 @@ public class PlayerUnit : MonoBehaviour
 			else
 			{
 				int tilesMoved = Mathf.Abs((int)ghost.transform.position.x - (int)transform.position.x) + Mathf.Abs((int)ghost.transform.position.y - (int)transform.position.y);
-				remainingMovement -= tilesMoved;
 
-				if (remainingMovement >= 0)
+				if (remainingMovement - tilesMoved >= 0)
 				{
+					remainingMovement -= tilesMoved;
+
 					transform.position = ghost.transform.position;
 					dragging = false;
 					Destroy(ghost.gameObject);
@@ -78,10 +79,6 @@ public class PlayerUnit : MonoBehaviour
 				Destroy(ghost.gameObject);
 			}
 		}
-
-		// DEBUG
-		Debug.DrawLine(mousePosWorld - new Vector3(0.2f, 0.2f), mousePosWorld + new Vector3(0.2f, 0.2f), Color.red);
-		Debug.DrawLine(mousePosWorld - new Vector3(-0.2f, 0.2f), mousePosWorld + new Vector3(-0.2f, 0.2f), Color.red);
 	}
 
 	private void OnMouseDown()

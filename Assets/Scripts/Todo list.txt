@@ -1,0 +1,12 @@
+
+player can move his units
+
+enemy AI can move its units
+
+---------------------------
+
+enemy has no usefull AI
+
+no unit has health
+
+no side can attack in any way
