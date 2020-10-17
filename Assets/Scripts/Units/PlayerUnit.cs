@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUnit : MonoBehaviour
+public class PlayerUnit : Unit
 {
 	public Ghost ghostPrefab;
 	private Ghost ghost;
 
+	public LineAttack attackPrefab;
+
 	private Camera cam;
 	private bool dragging = false;
-
-
-	[Tooltip("How far the unit can be moved in tiles.")]
-	public int movementPerRound = 4;
-	private int remainingMovement = 0;
 
 
 	void Start()
@@ -79,6 +76,12 @@ public class PlayerUnit : MonoBehaviour
 				Destroy(ghost.gameObject);
 			}
 		}
+
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			LineAttack attack = Instantiate(attackPrefab);
+			attack.Activate(GridUtility.RoundVector3(transform.position), Vector3.right, 5);
+		}
 	}
 
 	private void OnMouseDown()
@@ -89,11 +92,5 @@ public class PlayerUnit : MonoBehaviour
 	private void OnMouseUp()
 	{
 		//Debug.Log("Mouse Up");
-	}
-
-
-	public void ResetTurn()
-	{
-		remainingMovement = movementPerRound;
 	}
 }

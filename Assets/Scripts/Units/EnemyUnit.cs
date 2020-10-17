@@ -2,18 +2,9 @@
 using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
-using UnityEngine.Video;
 
-public class EnemyUnit : MonoBehaviour
+public class EnemyUnit : Unit
 {
-	[Tooltip("How far the unit can be moved in tiles.")]
-	public int movementPerRound = 4;
-	private int remainingMovement = 0;
-
-	public void ResetTurn()
-	{
-		remainingMovement = movementPerRound;
-	}
 
 	public void TakeTurn()
 	{
@@ -21,27 +12,27 @@ public class EnemyUnit : MonoBehaviour
 
 		Vector2Int tilesDistance = new Vector2Int((int)target.transform.position.x - (int)transform.position.x, (int)target.transform.position.y - (int)transform.position.y);
 
-		if (tilesDistance.x > 0)
+		if (tilesDistance.y > 0)
 		{
-			MoveX(tilesDistance.x);
+			MoveY(tilesDistance.y);
 			//Move(new Vector2Int(-tilesDistance.x, 0));
 		}
-		else if(tilesDistance.x < 0)
+		else if(tilesDistance.y < 0)
 		{
-			MoveX(tilesDistance.x);
+			MoveY(tilesDistance.y);
 			//Move(new Vector2Int(tilesDistance.x, 0));
 		}
 
 	}
 
-	public void MoveX(int distance)
+	public void MoveY(int distance)
 	{
 		if (distance > remainingMovement)
 			distance = remainingMovement;
 		else if (Mathf.Abs(distance) > remainingMovement)
 			distance = -remainingMovement;
 
-		transform.position += new Vector3(distance, 0, 0);
+		transform.position += new Vector3(0, distance, 0);
 
 		remainingMovement -= distance;
 	}
