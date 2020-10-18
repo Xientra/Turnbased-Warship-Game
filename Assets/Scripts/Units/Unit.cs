@@ -8,8 +8,13 @@ public class Unit : MonoBehaviour
 	public int movementPerRound = 4;
 	protected int remainingMovement = 0;
 
-	public int maxHealth;
+	public int maxHealth = 4;
 	protected int health;
+
+	private void Awake()
+	{
+		health = maxHealth;
+	}
 
 	public void ResetTurn()
 	{

@@ -28,7 +28,7 @@ public class PlayerUnit : Unit
 		{
 			if (dragging == false)
 			{
-				RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosWorld, mousePosWorld + new Vector3(0, 0, 1), 200);
+				RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosWorld, Vector3.forward, 1);
 				foreach (RaycastHit2D hit in hits)
 					if (hit.collider.gameObject == this.gameObject)
 					{
@@ -80,7 +80,7 @@ public class PlayerUnit : Unit
 		if (Input.GetKeyDown(KeyCode.F))
 		{
 			LineAttack attack = Instantiate(attackPrefab);
-			attack.Activate(GridUtility.RoundVector3(transform.position), Vector3.right, 5);
+			attack.Activate(this, GridUtility.RoundVector3(transform.position + Vector3.right), Vector3.right);
 		}
 	}
 

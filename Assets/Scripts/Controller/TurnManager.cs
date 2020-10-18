@@ -11,21 +11,28 @@ public class TurnManager : MonoBehaviour
 
 	public void Btn_EndTurn()
 	{
-		EndTurn(true);
+		EndPlayerTurn();
 	}
 
-	private void EndTurn(bool playerTurn)
+	private void EndPlayerTurn()
 	{
 		// enemy takes a turn
-		enemyManager.TakeTurn();
+		enemyManager.TakeTurn(this);
 
+		playerTurn = false;
 
+	}
+
+	public void EndAITurn()
+	{
 		// reset player units
 		GameObject[] playerUnits = GameObject.FindGameObjectsWithTag("Player");
 
 		foreach (GameObject pu in playerUnits)
 			if (pu.GetComponent<PlayerUnit>() != null)
 				pu.GetComponent<PlayerUnit>().ResetTurn();
+
+		playerTurn = true;
 	}
 
 	private void Update()
