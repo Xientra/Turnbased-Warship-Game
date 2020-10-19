@@ -18,12 +18,12 @@ public class EnemyManager : MonoBehaviour
 		}
 	}
 
-	public void TakeTurn(TurnManager responseObject)
+	public void TakeTurn()
 	{
-		StartCoroutine(ExecuteTurn(responseObject));
+		StartCoroutine(ExecuteTurn());
 	}
 
-	public IEnumerator ExecuteTurn(TurnManager responseObject)
+	public IEnumerator ExecuteTurn()
 	{
 		foreach (EnemyUnit eu in units)
 		{
@@ -33,6 +33,6 @@ public class EnemyManager : MonoBehaviour
 
 		yield return new WaitForSeconds(1);
 
-		responseObject.EndAITurn();
+		TurnManager.singelton.EndAITurn();
 	}
 }

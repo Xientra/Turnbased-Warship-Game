@@ -13,8 +13,6 @@ public static class GridUtility
 	{
 		Vector3 pos = tile + new Vector3(0.5f, 0.5f, 0);
 
-		Debug.Log(pos);
-
 		RaycastHit2D[] hits = Physics2D.RaycastAll(pos, Vector3.forward, 10);
 		GameObject[] result = new GameObject[hits.Length];
 

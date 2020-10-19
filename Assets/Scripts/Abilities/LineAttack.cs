@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineAttack : MonoBehaviour
+public class LineAttack : Ability
 {
 	public GameObject visual;
 	public int length;

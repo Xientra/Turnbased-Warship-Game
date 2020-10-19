@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+	[Header("Resources:")]
+
 	[Tooltip("How far the unit can be moved in tiles.")]
 	public int movementPerRound = 4;
-	protected int remainingMovement = 0;
+	public int movementRemaining = 0;
 
 	public int maxHealth = 4;
-	protected int health;
+	public int health;
+
+
+	public int actionPointsPerRound = 1;
+	public int actionPointsRemaining = 0;
+
+	[Header("Abilities:")]
+
+	public Ability[] abilities;
+
 
 	private void Awake()
 	{
@@ -18,7 +29,8 @@ public class Unit : MonoBehaviour
 
 	public void ResetTurn()
 	{
-		remainingMovement = movementPerRound;
+		movementRemaining = movementPerRound;
+		actionPointsRemaining = actionPointsPerRound;
 	}
 
 	public void TakeDamage(int amount)

@@ -27,14 +27,14 @@ public class EnemyUnit : Unit
 
 	public void MoveY(int distance)
 	{
-		if (distance > remainingMovement)
-			distance = remainingMovement;
-		else if (Mathf.Abs(distance) > remainingMovement)
-			distance = -remainingMovement;
+		if (distance > movementRemaining)
+			distance = movementRemaining;
+		else if (Mathf.Abs(distance) > movementRemaining)
+			distance = -movementRemaining;
 
 		transform.position += new Vector3(0, distance, 0);
 
-		remainingMovement -= distance;
+		movementRemaining -= distance;
 	}
 
 

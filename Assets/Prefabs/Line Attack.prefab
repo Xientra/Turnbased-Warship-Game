@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3530619496246552150}
   - component: {fileID: 4501624613877279052}
   m_Layer: 0
-  m_Name: LineAttack
+  m_Name: Line Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c4b4028956ed1645937d78338868aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionPointCost: 3
   visual: {fileID: 6288649472559625656, guid: 35e70550108ea684e907199db2491673, type: 3}
   length: 7
   damage: 3

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ public class PlayerUnit : Unit
 	{
 		Vector3 mousePosWorld = cam.ScreenToWorldPoint(Input.mousePosition);
 
+		/*
 		if (Input.GetMouseButtonDown(0))
 		{
 			if (dragging == false)
@@ -50,6 +52,7 @@ public class PlayerUnit : Unit
 				}
 			}
 		}
+		*/
 
 		if (dragging == true)
 		{
@@ -62,7 +65,7 @@ public class PlayerUnit : Unit
 
 			int tilesMoved = Mathf.Abs((int)ghost.transform.position.x - (int)transform.position.x) + Mathf.Abs((int)ghost.transform.position.y - (int)transform.position.y);
 
-			if (tilesMoved > remainingMovement)
+			if (tilesMoved > movementRemaining)
 				ghost.lineRenderer.enabled = false;
 		}
 
@@ -76,21 +79,49 @@ public class PlayerUnit : Unit
 				Destroy(ghost.gameObject);
 			}
 		}
+	}
 
-		if (Input.GetKeyDown(KeyCode.F))
+	public void Select()
+	{
+		ghost = Instantiate(ghostPrefab.gameObject, transform.position, transform.rotation).GetComponent<Ghost>();
+		dragging = true;
+	}
+
+	public void Deselect()
+	{
+		if (dragging)
 		{
-			LineAttack attack = Instantiate(attackPrefab);
-			attack.Activate(this, GridUtility.RoundVector3(transform.position + Vector3.right), Vector3.right);
+			dragging = false;
+			Destroy(ghost.gameObject);
 		}
 	}
 
-	private void OnMouseDown()
+	public void Move(Vector3 point)
 	{
-		//Debug.Log("Mouse Down");
+		if (ghost != null)
+		{
+			int tilesMoved = Mathf.Abs((int)ghost.transform.position.x - (int)transform.position.x) + Mathf.Abs((int)ghost.transform.position.y - (int)transform.position.y);
+
+			if (movementRemaining - tilesMoved >= 0)
+			{
+				movementRemaining -= tilesMoved;
+
+				transform.position = ghost.transform.position;
+				dragging = false;
+				Destroy(ghost.gameObject);
+			}
+		}
 	}
 
-	private void OnMouseUp()
+	public void UseAbility(int number)
 	{
-		//Debug.Log("Mouse Up");
+		number -= 1;
+
+		if (actionPointsRemaining >= abilities[number].actionPointCost)
+		{
+			actionPointsRemaining -= abilities[number].actionPointCost;
+			LineAttack attack = Instantiate(abilities[number].gameObject).GetComponent<LineAttack>();
+			attack.Activate(this, GridUtility.RoundVector3(transform.position + Vector3.right), Vector3.right);
+		}
 	}
 }
