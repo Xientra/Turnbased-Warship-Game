@@ -2,13 +2,17 @@
 using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(PlayerAbilityManager))]
 public class PlayerManager : MonoBehaviour
 {
+	[SerializeField]
+	private GameObject selectionMarker;
 
 	public PlayerUnit selectedUnit;
 
 	private List<PlayerUnit> units;
 
+	private PlayerAbilityManager abilityManager;
 	private Camera cam;
 
 	[Header("UI:")]
@@ -19,6 +23,7 @@ public class PlayerManager : MonoBehaviour
 	private void Start()
 	{
 		cam = Camera.main;
+		abilityManager = GetComponent<PlayerAbilityManager>();
 		ClearAbilitiesLabel();
 		ClearStatsLabel();
 	}
@@ -48,18 +53,23 @@ public class PlayerManager : MonoBehaviour
 
 		if (Input.GetMouseButtonDown(0))
 		{
-			bool selectedNewUnit = false;
-
-			if (unitHoveringOver != null && unitHoveringOver is PlayerUnit && unitHoveringOver != selectedUnit)
+			if (unitHoveringOver != null && unitHoveringOver is PlayerUnit)
 			{
-				SelectUnit((PlayerUnit)unitHoveringOver);
-				selectedNewUnit = true;
+				if (selectedUnit == null && unitHoveringOver != selectedUnit)
+				{
+					SelectUnit((PlayerUnit)unitHoveringOver);
+				}
+				else if (selectedUnit.PerformingAction == false && unitHoveringOver == selectedUnit)
+				{
+					selectedUnit.StartMoving();
+				}
 			}
 
-			if (selectedUnit != null && selectedNewUnit == false)
+			if (unitHoveringOver == null && selectedUnit != null)
 			{
 				// move unit
-				selectedUnit.Move(mousePosWorld);
+				selectedUnit.MoveTo(mousePosWorld);
+				selectionMarker.transform.position = selectedUnit.transform.position;
 
 				// make unit abilities usable in UI
 			}
@@ -69,14 +79,21 @@ public class PlayerManager : MonoBehaviour
 		{
 			if (Input.GetMouseButtonDown(1))
 			{
-				// unselect unit
-				DeselectUnit();
-				// cancel possible movement
+				if (selectedUnit.PerformingAction == true)
+				{
+					selectedUnit.CancelMoving();
+				}
+				else
+				{
+					// unselect unit
+					DeselectUnit();
+					// cancel possible movement
+				}
 			}
 
 			if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
-				selectedUnit.UseAbility(1);
+				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[1 - 1]);
 			}
 		}
 
@@ -86,7 +103,8 @@ public class PlayerManager : MonoBehaviour
 		{
 			SetStatsLabel(unitHoveringOver);
 		}
-		else ClearStatsLabel();
+		else
+			ClearStatsLabel();
 
 
 
@@ -100,6 +118,8 @@ public class PlayerManager : MonoBehaviour
 		selectedUnit = unit;
 		selectedUnit.Select();
 		SetAbilitiesLabel();
+		selectionMarker.transform.position = selectedUnit.transform.position;
+		selectionMarker.SetActive(true);
 	}
 
 	public void DeselectUnit()
@@ -107,6 +127,7 @@ public class PlayerManager : MonoBehaviour
 		selectedUnit.Deselect();
 		ClearAbilitiesLabel();
 		selectedUnit = null;
+		selectionMarker.SetActive(false);
 	}
 
 

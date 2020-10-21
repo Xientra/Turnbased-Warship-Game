@@ -11,7 +11,11 @@ public class PlayerUnit : Unit
 	public LineAttack attackPrefab;
 
 	private Camera cam;
-	private bool dragging = false;
+
+
+	private bool moving = false;
+	private bool usingAbility = false;
+	public bool PerformingAction { get => moving || usingAbility; }
 
 
 	void Start()
@@ -25,36 +29,7 @@ public class PlayerUnit : Unit
 	{
 		Vector3 mousePosWorld = cam.ScreenToWorldPoint(Input.mousePosition);
 
-		/*
-		if (Input.GetMouseButtonDown(0))
-		{
-			if (dragging == false)
-			{
-				RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosWorld, Vector3.forward, 1);
-				foreach (RaycastHit2D hit in hits)
-					if (hit.collider.gameObject == this.gameObject)
-					{
-						ghost = Instantiate(ghostPrefab.gameObject, transform.position, transform.rotation).GetComponent<Ghost>();
-						dragging = true;
-					}
-			}
-			else
-			{
-				int tilesMoved = Mathf.Abs((int)ghost.transform.position.x - (int)transform.position.x) + Mathf.Abs((int)ghost.transform.position.y - (int)transform.position.y);
-
-				if (remainingMovement - tilesMoved >= 0)
-				{
-					remainingMovement -= tilesMoved;
-
-					transform.position = ghost.transform.position;
-					dragging = false;
-					Destroy(ghost.gameObject);
-				}
-			}
-		}
-		*/
-
-		if (dragging == true)
+		if (moving == true)
 		{
 			ghost.transform.position = new Vector3(Mathf.Round(mousePosWorld.x), Mathf.Round(mousePosWorld.y), 0);
 
@@ -68,60 +43,50 @@ public class PlayerUnit : Unit
 			if (tilesMoved > movementRemaining)
 				ghost.lineRenderer.enabled = false;
 		}
-
-
-		// cancel drag
-		if (Input.GetMouseButtonDown(1))
-		{
-			if (dragging)
-			{
-				dragging = false;
-				Destroy(ghost.gameObject);
-			}
-		}
 	}
 
 	public void Select()
 	{
-		ghost = Instantiate(ghostPrefab.gameObject, transform.position, transform.rotation).GetComponent<Ghost>();
-		dragging = true;
+		Debug.LogWarning("Select in PlayerUnit is not implemented");
 	}
 
 	public void Deselect()
 	{
-		if (dragging)
-		{
-			dragging = false;
-			Destroy(ghost.gameObject);
-		}
+		Debug.LogWarning("Deselect in PlayerUnit is not implemented");
 	}
 
-	public void Move(Vector3 point)
+	public void StartMoving()
 	{
-		if (ghost != null)
+		ghost = Instantiate(ghostPrefab.gameObject, transform.position, transform.rotation).GetComponent<Ghost>();
+		moving = true;
+	}
+
+	public void MoveTo(Vector3 point)
+	{
+		if (moving)
 		{
-			int tilesMoved = Mathf.Abs((int)ghost.transform.position.x - (int)transform.position.x) + Mathf.Abs((int)ghost.transform.position.y - (int)transform.position.y);
-
-			if (movementRemaining - tilesMoved >= 0)
+			if (ghost != null)
 			{
-				movementRemaining -= tilesMoved;
+				int tilesMoved = Mathf.Abs((int)ghost.transform.position.x - (int)transform.position.x) + Mathf.Abs((int)ghost.transform.position.y - (int)transform.position.y);
 
-				transform.position = ghost.transform.position;
-				dragging = false;
-				Destroy(ghost.gameObject);
+				if (movementRemaining - tilesMoved >= 0)
+				{
+					movementRemaining -= tilesMoved;
+
+					transform.position = ghost.transform.position;
+					moving = false;
+					Destroy(ghost.gameObject);
+				}
 			}
 		}
 	}
 
-	public void UseAbility(int number)
+	public void CancelMoving()
 	{
-		number -= 1;
-
-		if (actionPointsRemaining >= abilities[number].actionPointCost)
+		if (moving)
 		{
-			actionPointsRemaining -= abilities[number].actionPointCost;
-			LineAttack attack = Instantiate(abilities[number].gameObject).GetComponent<LineAttack>();
-			attack.Activate(this, GridUtility.RoundVector3(transform.position + Vector3.right), Vector3.right);
+			moving = false;
+			Destroy(ghost.gameObject);
 		}
 	}
 }
