@@ -1,0 +1,42 @@
+
+
+
+
+Primary Gameplay Loop:
+
+you can basically allways attack so the goal is to find positions that:
+
+(1) let you deal more dmg
+	get in position to fire the Warship Laser
+	get enemies in a certian position?
+(2) take less dmg
+	take cover behind astroids / in astroid fields
+	get shielded / pretected by other ships
+
+
+To test this easy lets start with both sides having two (2 tile) units.
+One dmg dealer and one tank / support that can give shields or tank shots / draw fire
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Warship (M2, L10) armor or sth
+- Laser: Shot laser in a straight line dealing 3-5 dmg to the first target and 1 less with each hit
+- Breadside: Dealing 1 dmg to any tile (or in a 30t radius idk)
+
+Interceptor (M7, L3) evasion or sth
+- Pew Pew: deal 3 dmg to any tile in a 5t radius
+
+Bomber (M5, L3)
+- Bombs: deal 5-8 dmg to any tile in a 2t radius
