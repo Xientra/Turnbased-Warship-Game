@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class LineAttack : Ability
 {
-	public LineRenderer lineRenderer;
+	[Header("Properties")]
 
-	public GameObject visual;
 	public int length;
 	public int damage;
 
-	public void Activate(Unit origin, Vector3 direction)
+	[Space(5)]
+
+	public Vector3 direction;
+
+	public override void Activate(Unit origin)
 	{
 		transform.position = GridUtility.RoundVector3(transform.position + direction); // + direction, so that it starts one tile away from the origin
 

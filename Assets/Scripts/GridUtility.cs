@@ -21,4 +21,9 @@ public static class GridUtility
 
 		return result;
 	}
+
+	public static float GetTileDistance(Vector3 v1, Vector3 v2)
+	{
+		return Mathf.Abs(v1.x - v2.x) + Mathf.Abs(v1.y - v2.y);
+	}
 }

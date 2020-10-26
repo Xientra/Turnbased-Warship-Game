@@ -83,18 +83,23 @@ public class PlayerManager : MonoBehaviour
 				{
 					selectedUnit.CancelMoving();
 				}
+				else if (abilityManager.IsActivatingAbility == true)
+				{
+					abilityManager.CancelActivation();
+				}
 				else
 				{
-					// unselect unit
 					DeselectUnit();
-					// cancel possible movement
 				}
 			}
 
+			/*
 			if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
 				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[1 - 1]);
 			}
+			*/
+
 		}
 
 

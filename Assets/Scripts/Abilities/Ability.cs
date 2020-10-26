@@ -4,9 +4,16 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
+
+	[Header("Visual")]
+	public GameObject visual;
+
+	[Header("Ability Base:")]
+
 	public int actionPointCost = 1;
 
 	public bool isInstant = false;
 
-	public void Activate(Unit origin) { }
+
+	public abstract void Activate(Unit origin);
 }
