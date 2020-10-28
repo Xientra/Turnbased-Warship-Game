@@ -12,7 +12,7 @@ public class PlayerAbilityManager : MonoBehaviour
 	private enum ActivatingAbility { none, Point, CrossDirection, CrossPoint, MultiDirection, FreeDirection }
 	private ActivatingAbility activatingAbility = ActivatingAbility.none;
 
-	public bool IsActivatingAbility { get => (activatingAbility == ActivatingAbility.none); }
+	public bool IsActivatingAbility { get => (activatingAbility != ActivatingAbility.none); }
 
 	private Vector3 targetPosition;
 	private Vector3 direction;
@@ -26,7 +26,6 @@ public class PlayerAbilityManager : MonoBehaviour
 		this.abilityPrefab = ability;
 		this.origin = origin;
 
-		//activatingAbility = true; // okay, but how is the Ability Manager supposed to know what what ability is... isn't it better to do it in the ability after all?
 	}
 
 	#region Activating Ability
@@ -88,7 +87,7 @@ public class PlayerAbilityManager : MonoBehaviour
 			direction = new Vector3(0, -1, 0);
 
 		lineRenderer.SetPosition(0, origin.transform.position + new Vector3(0.5f, 0.5f, 0));
-		lineRenderer.SetPosition(1, origin.transform.position + new Vector3(0.5f, 0.5f, 0) + direction.normalized * (((LineAttack)abilityPrefab).length - 1));
+		lineRenderer.SetPosition(1, origin.transform.position + new Vector3(0.5f, 0.5f, 0) + direction.normalized * (((LineAbility)abilityPrefab).length - 1));
 		lineRenderer.enabled = true;
 	}
 
@@ -102,8 +101,8 @@ public class PlayerAbilityManager : MonoBehaviour
 
 	private void UseLineAbility()
 	{
-		LineAttack la = (LineAttack)abilityPrefab;
-		LineAttack actualAbility = Instantiate(la.gameObject, origin.transform.position, la.gameObject.transform.rotation).GetComponent<LineAttack>();
+		LineAbility la = (LineAbility)abilityPrefab;
+		LineAbility actualAbility = Instantiate(la.gameObject, origin.transform.position, la.gameObject.transform.rotation).GetComponent<LineAbility>();
 
 		actualAbility.direction = direction;
 		actualAbility.Activate(origin);

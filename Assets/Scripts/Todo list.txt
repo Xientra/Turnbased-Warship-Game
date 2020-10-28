@@ -7,6 +7,8 @@ enemy AI can move its units
 
 enemy has no usefull AI
 
-no unit has health
+make attacks
 
-no side can attack in any way
+make buff abilities
+
+-> implement primary gameplay loop

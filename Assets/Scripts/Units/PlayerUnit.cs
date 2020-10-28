@@ -1,14 +1,8 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerUnit : Unit
 {
-	public Ghost ghostPrefab;
-	private Ghost ghost;
-
-	public LineAttack attackPrefab;
+	public Ghost ghost;
 
 	private Camera cam;
 
@@ -21,25 +15,23 @@ public class PlayerUnit : Unit
 	void Start()
 	{
 		cam = Camera.main;
-
-		ResetTurn(); // TODO should later happen in the Turn Manager
 	}
 
 	void Update()
 	{
-		Vector3 mousePosWorld = cam.ScreenToWorldPoint(Input.mousePosition);
-
 		if (moving == true)
 		{
-			ghost.transform.position = new Vector3(Mathf.Round(mousePosWorld.x), Mathf.Round(mousePosWorld.y), 0);
+			Vector3 mousePosWorld = cam.ScreenToWorldPoint(Input.mousePosition);
+
+			ghost.transform.position = GridUtility.SnapToGrid(mousePosWorld);
 
 			ghost.lineRenderer.SetPosition(0, ghost.transform.position);
 			ghost.lineRenderer.SetPosition(1, transform.position);
 			ghost.lineRenderer.enabled = true;
 
 
-			int tilesMoved = Mathf.Abs((int)ghost.transform.position.x - (int)transform.position.x) + Mathf.Abs((int)ghost.transform.position.y - (int)transform.position.y);
-
+			int tilesMoved = (int)GridUtility.GetTileDistance(GridUtility.PositionToTile(ghost.transform.position), GridUtility.PositionToTile(transform.position));
+			
 			if (tilesMoved > movementRemaining)
 				ghost.lineRenderer.enabled = false;
 		}
@@ -57,7 +49,7 @@ public class PlayerUnit : Unit
 
 	public void StartMoving()
 	{
-		ghost = Instantiate(ghostPrefab.gameObject, transform.position, transform.rotation).GetComponent<Ghost>();
+		ghost.gameObject.SetActive(true);
 		moving = true;
 	}
 
@@ -75,7 +67,7 @@ public class PlayerUnit : Unit
 
 					transform.position = ghost.transform.position;
 					moving = false;
-					Destroy(ghost.gameObject);
+					ghost.gameObject.SetActive(false);
 				}
 			}
 		}
@@ -86,7 +78,7 @@ public class PlayerUnit : Unit
 		if (moving)
 		{
 			moving = false;
-			Destroy(ghost.gameObject);
+			ghost.gameObject.SetActive(false);
 		}
 	}
 }

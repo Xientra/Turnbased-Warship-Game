@@ -17,13 +17,13 @@ public class PointAbility : Ability
 
 	[Space(5)]
 
-	public Vector3Int targetTile;
+	public Vector2Int targetTile;
 
 
 
 	public override void Activate(Unit origin)
 	{
-		int activationDistance = (int)GridUtility.GetTileDistance(origin.transform.position, targetTile);
+		int activationDistance = GridUtility.GetTileDistance(GridUtility.PositionToTile(origin.transform.position), targetTile);
 
 		if (activationDistance <= range)
 		{

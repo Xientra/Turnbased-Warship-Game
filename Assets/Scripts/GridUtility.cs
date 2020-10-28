@@ -1,19 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class GridUtility
 {
-	public static Vector3Int RoundVector3(Vector3 pos)
+	/// <summary> Returns the center position of the given tile. </summary>
+	public static Vector3 TileToPosition(Vector2Int tile)
 	{
-		return new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+		return new Vector3(tile.x + 0.5f, tile.y + 0.5f, 0);
 	}
 
-	public static GameObject[] GetObjectsOnTile(Vector3Int tile)
+	/// <summary> Returns the tile the given position lies in. </summary>
+	public static Vector2Int PositionToTile(Vector3 position)
 	{
-		Vector3 pos = tile + new Vector3(0.5f, 0.5f, 0);
+		return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
+	}
 
-		RaycastHit2D[] hits = Physics2D.RaycastAll(pos, Vector3.forward, 10);
+	/// <summary> Returns the center position of the tile, the given position is in. </summary>
+	public static Vector3 SnapToGrid(Vector3 position)
+	{
+		return TileToPosition(PositionToTile(position));
+	}
+
+	public static GameObject[] GetObjectsOnTile(Vector2Int tile)
+	{
+		Vector3 tilePos = TileToPosition(tile);
+
+		RaycastHit2D[] hits = Physics2D.RaycastAll(tilePos, Vector3.forward, 10);
 		GameObject[] result = new GameObject[hits.Length];
 
 		for (int i = 0; i < hits.Length; i++)
@@ -22,8 +33,20 @@ public static class GridUtility
 		return result;
 	}
 
-	public static float GetTileDistance(Vector3 v1, Vector3 v2)
+	public static int GetTileDistance(Vector2Int t1, Vector2Int t2)
 	{
-		return Mathf.Abs(v1.x - v2.x) + Mathf.Abs(v1.y - v2.y);
+		return Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y);
+	}
+
+
+
+	public static Vector2Int[] GetPointArea(Vector2Int point, int radius)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public static Vector2Int[] GetTileLine(Vector2Int start, Vector2Int finish)
+	{
+		throw new System.NotImplementedException();
 	}
 }
