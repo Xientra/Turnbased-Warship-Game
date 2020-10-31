@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAbilityManager : MonoBehaviour
 {
@@ -9,10 +6,10 @@ public class PlayerAbilityManager : MonoBehaviour
 	public LineRenderer lineRenderer;
 	public GameObject targetTileMarker;
 
-	private enum ActivatingAbility { none, Point, CrossDirection, CrossPoint, MultiDirection, FreeDirection }
-	private ActivatingAbility activatingAbility = ActivatingAbility.none;
+	private enum AbilityVisuals { none, Point, CrossDirection, CrossPoint, MultiDirection, FreeDirection }
+	private AbilityVisuals activeAbilityVisual = AbilityVisuals.none;
 
-	public bool IsActivatingAbility { get => (activatingAbility != ActivatingAbility.none); }
+	public bool IsActivatingAbility { get => (activeAbilityVisual != AbilityVisuals.none); }
 
 	private Vector3 targetPosition;
 	private Vector3 direction;
@@ -26,26 +23,30 @@ public class PlayerAbilityManager : MonoBehaviour
 		this.abilityPrefab = ability;
 		this.origin = origin;
 
+		if (ability is LineAbility)
+			activeAbilityVisual = AbilityVisuals.CrossDirection;
+		else if (ability is PointAbility)
+			activeAbilityVisual = AbilityVisuals.Point;
 	}
 
 	#region Activating Ability
 
 	void Update()
 	{
-		switch (activatingAbility)
+		switch (activeAbilityVisual)
 		{
-			case ActivatingAbility.Point:
-				UpdatePointAbility();
+			case AbilityVisuals.Point:
+				PointVisual();
 				break;
-			case ActivatingAbility.CrossDirection:
-				UpdateCrossDirectionAbility();
+			case AbilityVisuals.CrossDirection:
+				CrossDirectionVisual();
 				break;
-			case ActivatingAbility.CrossPoint:
-				UpdateCrossPointAbility();
+			case AbilityVisuals.CrossPoint:
+				CrossPointVisual();
 				break;
-			case ActivatingAbility.MultiDirection:
+			case AbilityVisuals.MultiDirection:
 				break;
-			case ActivatingAbility.FreeDirection:
+			case AbilityVisuals.FreeDirection:
 				break;
 
 
@@ -58,19 +59,24 @@ public class PlayerAbilityManager : MonoBehaviour
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				UseLineAbility();
+				ActivateAbility();
 			}
 		}
 	}
 
-	/// <summary> A Ability, that targets a specific tile on the grid </summary>
-	private void UpdatePointAbility()
+	/// <summary> Highlights a specific tile </summary>
+	private void PointVisual()
 	{
+		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
+		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
 
+		targetTileMarker.transform.position = GridUtility.SnapToGrid(mouseWorldPos);
+
+		targetTileMarker.SetActive(true);
 	}
 
-	/// <summary> A Ability, that only wants one of the four (x, -x, y, -y) directions </summary>
-	private void UpdateCrossDirectionAbility()
+	/// <summary> Highlights only one of the four (x, -x, y, -y) directions </summary>
+	private void CrossDirectionVisual()
 	{
 		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
 		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
@@ -86,34 +92,40 @@ public class PlayerAbilityManager : MonoBehaviour
 		else if (-mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
 			direction = new Vector3(0, -1, 0);
 
-		lineRenderer.SetPosition(0, origin.transform.position + new Vector3(0.5f, 0.5f, 0));
-		lineRenderer.SetPosition(1, origin.transform.position + new Vector3(0.5f, 0.5f, 0) + direction.normalized * (((LineAbility)abilityPrefab).length - 1));
+		lineRenderer.SetPosition(0, GridUtility.SnapToGrid(origin.transform.position));
+		lineRenderer.SetPosition(1, GridUtility.SnapToGrid(origin.transform.position) + direction.normalized * (((LineAbility)abilityPrefab).length - 1));
 		lineRenderer.enabled = true;
 	}
 
-	/// <summary> A Ability, that wants a point, that also lies on one of the four (x, -x, y, -y) directions </summary>
-	private void UpdateCrossPointAbility()
+	/// <summary> Highlights a point, that also lies on one of the four (x, -x, y, -y) directions </summary>
+	private void CrossPointVisual()
 	{
 
 	}
 
 	#endregion
 
-	private void UseLineAbility()
+	private void ActivateAbility()
 	{
-		LineAbility la = (LineAbility)abilityPrefab;
-		LineAbility actualAbility = Instantiate(la.gameObject, origin.transform.position, la.gameObject.transform.rotation).GetComponent<LineAbility>();
+		Ability ability = Instantiate(abilityPrefab.gameObject, origin.transform.position, abilityPrefab.gameObject.transform.rotation).GetComponent<Ability>();
 
-		actualAbility.direction = direction;
-		actualAbility.Activate(origin);
+		ability.targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+		//ability.targetUnit = ;
+		ability.Activate(origin);
 
-		activatingAbility = ActivatingAbility.none;
+		activeAbilityVisual = AbilityVisuals.none;
+		HideAllVisuals();
+	}
+
+	private void HideAllVisuals()
+	{
 		lineRenderer.enabled = false;
+		targetTileMarker.SetActive(false);
 	}
 
 	public void CancelActivation()
 	{
-		activatingAbility = ActivatingAbility.none;
+		activeAbilityVisual = AbilityVisuals.none;
 		lineRenderer.enabled = false;
 	}
 }

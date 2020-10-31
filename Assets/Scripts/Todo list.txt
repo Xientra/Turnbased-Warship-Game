@@ -5,6 +5,9 @@ enemy AI can move its units
 
 ---------------------------
 
+1: Replace Vector2Int with a Tile object, that has TileToPosition() and PosititionToTile() in it.
+
+
 enemy has no usefull AI
 
 make attacks

@@ -93,12 +93,16 @@ public class PlayerManager : MonoBehaviour
 				}
 			}
 
-			/*
+
 			if (Input.GetKeyDown(KeyCode.Alpha1))
-			{
 				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[1 - 1]);
-			}
-			*/
+			if (Input.GetKeyDown(KeyCode.Alpha2))
+				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[2 - 1]);
+			if (Input.GetKeyDown(KeyCode.Alpha3))
+				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[3 - 1]);
+			if (Input.GetKeyDown(KeyCode.Alpha4))
+				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[4 - 1]);
+
 
 		}
 

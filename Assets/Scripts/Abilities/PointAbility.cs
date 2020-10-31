@@ -15,19 +15,18 @@ public class PointAbility : Ability
 	//[Tooltip("The radius of the area around the target tile, that is affected")]
 	//public int radius = 1;
 
-	[Space(5)]
-
-	public Vector2Int targetTile;
-
-
 
 	public override void Activate(Unit origin)
 	{
+		Vector2Int targetTile = GridUtility.PositionToTile(targetPosition);
+
 		int activationDistance = GridUtility.GetTileDistance(GridUtility.PositionToTile(origin.transform.position), targetTile);
 
-		if (activationDistance <= range)
+		if (activationDistance <= range || range == 0)
 		{
 			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(targetTile);
+
+			Instantiate(visual, GridUtility.TileToPosition(targetTile), visual.transform.rotation, transform);
 
 			for (int j = 0; j < objectsOnTile.Length; j++)
 			{
@@ -36,5 +35,7 @@ public class PointAbility : Ability
 					unitOnTile.TakeDamage(damage);
 			}
 		}
+
+		Destroy(this.gameObject, 1.2f);
 	}
 }

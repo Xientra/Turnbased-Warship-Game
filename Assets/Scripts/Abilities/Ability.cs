@@ -14,6 +14,8 @@ public abstract class Ability : MonoBehaviour
 
 	public bool isInstant = false;
 
+	public Unit targetUnit;
+	public Vector3 targetPosition;
 
 	public abstract void Activate(Unit origin);
 }
