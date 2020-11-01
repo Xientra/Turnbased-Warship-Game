@@ -102,8 +102,6 @@ public class PlayerManager : MonoBehaviour
 				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[3 - 1]);
 			if (Input.GetKeyDown(KeyCode.Alpha4))
 				abilityManager.UseAbility(selectedUnit, selectedUnit.abilities[4 - 1]);
-
-
 		}
 
 

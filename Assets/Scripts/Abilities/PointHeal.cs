@@ -1,17 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PointAbility : Ability
+public class PointHeal : Ability
 {
+	[Header("Point Heal")]
 
-	[Header("Point Attack")]
-
-	public int damage = 2;
-
-	//[Tooltip("The radius of the area around the target tile, that is affected")]
-	//public int radius = 1;
-
+	public int heal = 1;
 
 	public override void Activate(Unit origin)
 	{
@@ -19,7 +12,7 @@ public class PointAbility : Ability
 
 		int activationDistance = GridUtility.GetTileDistance(GridUtility.PositionToTile(origin.transform.position), targetTile);
 
-		if (activationDistance <= range || range == 0)
+		if (activationDistance <= range || range == -1)
 		{
 			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(targetTile);
 
@@ -29,7 +22,7 @@ public class PointAbility : Ability
 			{
 				Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();
 				if (unitOnTile != null)
-					unitOnTile.TakeDamage(damage);
+					unitOnTile.TakeDamage(-heal);
 			}
 		}
 

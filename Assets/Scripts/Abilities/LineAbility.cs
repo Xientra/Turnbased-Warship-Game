@@ -6,7 +6,6 @@ public class LineAbility : Ability
 {
 	[Header("Properties")]
 
-	public int length;
 	public int damage;
 
 
@@ -31,7 +30,7 @@ public class LineAbility : Ability
 		transform.position = GridUtility.SnapToGrid(transform.position + direction); // + direction, so that it starts one tile away from the origin
 
 
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < range; i++)
 		{
 			Vector2Int tilePos = GridUtility.PositionToTile(origin.transform.position + direction * i);
 

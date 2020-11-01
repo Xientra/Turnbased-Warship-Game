@@ -13,7 +13,6 @@ public class PlayerAbilityManager : MonoBehaviour
 
 	private Vector3 targetPosition;
 	private Vector3 direction;
-	private int length;
 
 	Ability abilityPrefab;
 	Unit origin;
@@ -72,6 +71,11 @@ public class PlayerAbilityManager : MonoBehaviour
 
 		targetTileMarker.transform.position = GridUtility.SnapToGrid(mouseWorldPos);
 
+		if (GridUtility.GetTileDistance(GridUtility.PositionToTile(origin.transform.position), GridUtility.PositionToTile(mouseWorldPos)) > abilityPrefab.range)
+		{
+			Debug.Log("Out of range");
+		}
+
 		targetTileMarker.SetActive(true);
 	}
 
@@ -93,7 +97,7 @@ public class PlayerAbilityManager : MonoBehaviour
 			direction = new Vector3(0, -1, 0);
 
 		lineRenderer.SetPosition(0, GridUtility.SnapToGrid(origin.transform.position));
-		lineRenderer.SetPosition(1, GridUtility.SnapToGrid(origin.transform.position) + direction.normalized * (((LineAbility)abilityPrefab).length - 1));
+		lineRenderer.SetPosition(1, GridUtility.SnapToGrid(origin.transform.position) + direction.normalized * (abilityPrefab.range - 1));
 		lineRenderer.enabled = true;
 	}
 
@@ -107,12 +111,26 @@ public class PlayerAbilityManager : MonoBehaviour
 
 	private void ActivateAbility()
 	{
+		if (origin.actionPointsRemaining - abilityPrefab.actionPointCost < 0)
+		{
+			Debug.Log("not enougth action points");
+			return;
+		}
+			
 		Ability ability = Instantiate(abilityPrefab.gameObject, origin.transform.position, abilityPrefab.gameObject.transform.rotation).GetComponent<Ability>();
 
 		ability.targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
 		//ability.targetUnit = ;
 		ability.Activate(origin);
 
+		origin.actionPointsRemaining -= ability.actionPointCost;
+
+		activeAbilityVisual = AbilityVisuals.none;
+		HideAllVisuals();
+	}
+
+	public void CancelActivation()
+	{
 		activeAbilityVisual = AbilityVisuals.none;
 		HideAllVisuals();
 	}
@@ -121,11 +139,5 @@ public class PlayerAbilityManager : MonoBehaviour
 	{
 		lineRenderer.enabled = false;
 		targetTileMarker.SetActive(false);
-	}
-
-	public void CancelActivation()
-	{
-		activeAbilityVisual = AbilityVisuals.none;
-		lineRenderer.enabled = false;
 	}
 }
