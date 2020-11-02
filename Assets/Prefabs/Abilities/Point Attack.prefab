@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visual: {fileID: 6288649472559625656, guid: 35e70550108ea684e907199db2491673, type: 3}
-  actionPointCost: 1
   isInstant: 0
+  actionPointCost: 1
+  range: -1
+  targetUnit: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
   damage: 2
-  range: 0
-  targetTile: {x: 0, y: 0, z: 0}

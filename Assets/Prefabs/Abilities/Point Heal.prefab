@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6908615073840680091}
-  - component: {fileID: 6908615073840680090}
+  - component: {fileID: 156115891273485323}
   m_Layer: 0
   m_Name: Point Heal
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6908615073840680090
+--- !u!114 &156115891273485323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,13 +40,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6908615073840680085}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35fa3dee3366bb046808ffcf8991c01e, type: 3}
+  m_Script: {fileID: 11500000, guid: ae790c52d5841d440b329d22e19e0ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visual: {fileID: 6288649472559625656, guid: 35e70550108ea684e907199db2491673, type: 3}
+  visual: {fileID: 0}
   isInstant: 0
   actionPointCost: 3
-  range: 0
+  range: -1
   targetUnit: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
-  damage: 2
+  heal: 2

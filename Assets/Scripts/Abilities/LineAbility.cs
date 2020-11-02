@@ -29,14 +29,14 @@ public class LineAbility : Ability
 		// activate
 		transform.position = GridUtility.SnapToGrid(transform.position + direction); // + direction, so that it starts one tile away from the origin
 
-
-		for (int i = 0; i < range; i++)
+		int effectiveRange = range == -1 ? 200 : range;
+		for (int i = 0; i < effectiveRange; i++)
 		{
-			Vector2Int tilePos = GridUtility.PositionToTile(origin.transform.position + direction * i);
+			Tile t = new Tile(origin.transform.position + direction * i);
 
-			Instantiate(visual, GridUtility.TileToPosition(tilePos), visual.transform.rotation, transform);
+			Instantiate(visual, t.Position, visual.transform.rotation, transform);
 
-			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(tilePos);
+			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(t);
 			for (int j = 0; j < objectsOnTile.Length; j++)
 			{
 				Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();

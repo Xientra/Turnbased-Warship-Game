@@ -8,15 +8,15 @@ public class PointHeal : Ability
 
 	public override void Activate(Unit origin)
 	{
-		Vector2Int targetTile = GridUtility.PositionToTile(targetPosition);
+		Tile targetTile = new Tile(targetPosition);
 
-		int activationDistance = GridUtility.GetTileDistance(GridUtility.PositionToTile(origin.transform.position), targetTile);
+		int activationDistance = targetTile.Distance(Tile.PositionToCoordinates(origin.transform.position));
 
 		if (activationDistance <= range || range == -1)
 		{
 			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(targetTile);
 
-			Instantiate(visual, GridUtility.TileToPosition(targetTile), visual.transform.rotation, transform);
+			Instantiate(visual, targetTile.Position, visual.transform.rotation, transform);
 
 			for (int j = 0; j < objectsOnTile.Length; j++)
 			{

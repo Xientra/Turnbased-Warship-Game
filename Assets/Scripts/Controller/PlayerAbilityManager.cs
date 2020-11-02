@@ -71,7 +71,7 @@ public class PlayerAbilityManager : MonoBehaviour
 
 		targetTileMarker.transform.position = GridUtility.SnapToGrid(mouseWorldPos);
 
-		if (GridUtility.GetTileDistance(GridUtility.PositionToTile(origin.transform.position), GridUtility.PositionToTile(mouseWorldPos)) > abilityPrefab.range)
+		if (abilityPrefab.range != -1 && GridUtility.GetTileDistance(GridUtility.PositionToTile(origin.transform.position), GridUtility.PositionToTile(mouseWorldPos)) > abilityPrefab.range)
 		{
 			Debug.Log("Out of range");
 		}

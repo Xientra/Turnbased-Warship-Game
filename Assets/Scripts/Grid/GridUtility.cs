@@ -20,9 +20,14 @@ public static class GridUtility
 		return TileToPosition(PositionToTile(position));
 	}
 
-	public static GameObject[] GetObjectsOnTile(Vector2Int tile)
+	public static GameObject[] GetObjectsOnTile(Tile tile)
 	{
-		Vector3 tilePos = TileToPosition(tile);
+		return GetObjectsOnTile(tile.coordinates);
+	}
+
+	public static GameObject[] GetObjectsOnTile(Vector2Int coordinates)
+	{
+		Vector3 tilePos = TileToPosition(coordinates);
 
 		RaycastHit2D[] hits = Physics2D.RaycastAll(tilePos, Vector3.forward, 10);
 		GameObject[] result = new GameObject[hits.Length];
