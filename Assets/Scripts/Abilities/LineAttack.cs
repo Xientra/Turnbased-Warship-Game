@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineAbility : Ability
+public class LineAttack : Ability
 {
 	[Header("Properties")]
 

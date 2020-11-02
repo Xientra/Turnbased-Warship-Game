@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PointAbility : Ability
+public class PointAttack : PointAbility
 {
 
 	[Header("Point Attack")]

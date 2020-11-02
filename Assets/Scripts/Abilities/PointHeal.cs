@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PointHeal : Ability
+public class PointHeal : PointAbility
 {
 	[Header("Point Heal")]
 

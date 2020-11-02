@@ -9043,7 +9043,7 @@ PrefabInstance:
         type: 3}
       propertyPath: abilities.Array.data[0]
       value: 
-      objectReference: {fileID: 6908615073840680090, guid: 332248db514d1d3469aac2fca8f12702,
+      objectReference: {fileID: 156115891273485323, guid: 332248db514d1d3469aac2fca8f12702,
         type: 3}
     - target: {fileID: 3446052414137194027, guid: 282d6ed8dba412d44b76fbe7bf2f0f2c,
         type: 3}

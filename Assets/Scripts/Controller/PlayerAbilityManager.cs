@@ -22,7 +22,7 @@ public class PlayerAbilityManager : MonoBehaviour
 		this.abilityPrefab = ability;
 		this.origin = origin;
 
-		if (ability is LineAbility)
+		if (ability is LineAttack)
 			activeAbilityVisual = AbilityVisuals.CrossDirection;
 		else if (ability is PointAbility)
 			activeAbilityVisual = AbilityVisuals.Point;
