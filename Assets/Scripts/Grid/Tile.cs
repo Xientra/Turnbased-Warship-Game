@@ -11,6 +11,10 @@ public class Tile
 	{
 		coordinates = PositionToCoordinates(position);
 	}
+	public Tile(int x, int y)
+	{
+		coordinates = new Vector2Int(x, y);
+	}
 	public Tile(Vector2Int coordinates)
 	{
 		this.coordinates = coordinates;

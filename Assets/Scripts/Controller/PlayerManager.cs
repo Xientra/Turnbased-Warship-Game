@@ -18,14 +18,16 @@ public class PlayerManager : MonoBehaviour
 	[Header("UI:")]
 
 	public TMP_Text abilitiesLabel;
-	public TMP_Text resourcesLabel;
+	public TMP_Text selectionInfoLabel;
+	public TMP_Text hoverInfoLabel;
 
 	private void Start()
 	{
 		cam = Camera.main;
 		abilityManager = GetComponent<PlayerAbilityManager>();
 		ClearAbilitiesLabel();
-		ClearStatsLabel();
+		ClearLabel(selectionInfoLabel);
+		ClearLabel(hoverInfoLabel);
 	}
 
 	public void TakeTurn()
@@ -108,10 +110,10 @@ public class PlayerManager : MonoBehaviour
 		// hovering effect
 		if (unitHoveringOver != null)
 		{
-			SetStatsLabel(unitHoveringOver);
+			SetInfoLabel(unitHoveringOver, hoverInfoLabel);
 		}
 		else
-			ClearStatsLabel();
+			ClearLabel(hoverInfoLabel);
 
 
 
@@ -125,6 +127,7 @@ public class PlayerManager : MonoBehaviour
 		selectedUnit = unit;
 		selectedUnit.Select();
 		SetAbilitiesLabel();
+		SetInfoLabel(unit, selectionInfoLabel);
 		selectionMarker.transform.position = selectedUnit.transform.position;
 		selectionMarker.SetActive(true);
 	}
@@ -133,6 +136,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		selectedUnit.Deselect();
 		ClearAbilitiesLabel();
+		ClearLabel(selectionInfoLabel);
 		selectedUnit = null;
 		selectionMarker.SetActive(false);
 	}
@@ -154,18 +158,18 @@ public class PlayerManager : MonoBehaviour
 		abilitiesLabel.text = "[NO DATA]";
 	}
 
-	public void SetStatsLabel(Unit unit)
+	public void SetInfoLabel(Unit unit, TMP_Text label)
 	{
-		resourcesLabel.text =
+		label.text =
 		"Name: " + unit.name + "\n" +
 		"Health: " + unit.health + " / " + unit.maxHealth + "\n" +
 		"Action Points: " + unit.actionPointsRemaining + " / " + unit.actionPointsPerRound + "\n" +
 		"Movement: " + unit.movementRemaining + " / " + unit.movementPerRound;
 	}
 
-	public void ClearStatsLabel()
+	public void ClearLabel(TMP_Text label)
 	{
-		resourcesLabel.text = "";
+		label.text = "";
 	}
 
 	public void Btn_EndTurn()

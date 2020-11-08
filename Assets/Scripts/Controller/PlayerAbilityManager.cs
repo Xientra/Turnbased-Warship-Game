@@ -96,8 +96,10 @@ public class PlayerAbilityManager : MonoBehaviour
 		else if (-mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
 			direction = new Vector3(0, -1, 0);
 
+		int visualRange = abilityPrefab.range == -1 ? 200 : (abilityPrefab.range - 1);
+
 		lineRenderer.SetPosition(0, GridUtility.SnapToGrid(origin.transform.position));
-		lineRenderer.SetPosition(1, GridUtility.SnapToGrid(origin.transform.position) + direction.normalized * (abilityPrefab.range - 1));
+		lineRenderer.SetPosition(1, GridUtility.SnapToGrid(origin.transform.position) + direction.normalized * visualRange);
 		lineRenderer.enabled = true;
 	}
 

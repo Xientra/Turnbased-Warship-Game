@@ -50,3 +50,4 @@ MonoBehaviour:
   targetUnit: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   damage: 2
+  inaccuracy: 1

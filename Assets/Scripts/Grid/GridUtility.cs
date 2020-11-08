@@ -50,6 +50,18 @@ public static class GridUtility
 		throw new System.NotImplementedException();
 	}
 
+	public static Vector2Int[,] GetSquareArea(Vector2Int point, int radius)
+	{
+		int edgeLength = radius * 2 + 1;
+		Vector2Int[,] result = new Vector2Int[edgeLength, edgeLength];
+
+		for (int y = -radius; y <= radius; y++)
+			for (int x = -radius; x <= radius; x++)
+				result[x, y] = new Vector2Int(point.x + x, point.y + y);
+
+		return result;
+	}
+
 	public static Vector2Int[] GetTileLine(Vector2Int start, Vector2Int finish)
 	{
 		throw new System.NotImplementedException();
