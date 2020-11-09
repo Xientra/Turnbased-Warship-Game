@@ -43,11 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3c2c3b4ac77494a8538131de667988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visual: {fileID: 6288649472559625656, guid: 35e70550108ea684e907199db2491673, type: 3}
+  hitVisual: {fileID: 6288649472559625656, guid: 35e70550108ea684e907199db2491673,
+    type: 3}
   isInstant: 0
   actionPointCost: 3
   range: 5
-  effect: {fileID: 11400000, guid: e52a878e48442c84db136a3542a587dc, type: 2}
+  effect: {fileID: 11400000, guid: f6f2b0432184a5041a7ef3d94daf75bb, type: 2}
   targetUnit: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   damage: 3

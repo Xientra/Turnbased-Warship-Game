@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrossPointHeal : PointAbility
+public class CrossPointAbility : Ability
 {
 	public override void Activate(Unit origin)
 	{

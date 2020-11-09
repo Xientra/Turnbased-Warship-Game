@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class PointAttack : PointAbility
+public class PointAbility : Ability
 {
 
-	[Header("Point Attack")]
+	[Header("Point Ability")]
 
 	public int inaccuracy = 0;
 	//[Tooltip("The radius of the area around the target tile, that is affected")]

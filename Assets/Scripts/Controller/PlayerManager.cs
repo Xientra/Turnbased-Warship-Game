@@ -125,7 +125,6 @@ public class PlayerManager : MonoBehaviour
 	public void SelectUnit(PlayerUnit unit)
 	{
 		selectedUnit = unit;
-		selectedUnit.Select();
 		SetAbilitiesLabel();
 		SetInfoLabel(unit, selectionInfoLabel);
 		selectionMarker.transform.position = selectedUnit.transform.position;
@@ -134,7 +133,6 @@ public class PlayerManager : MonoBehaviour
 
 	public void DeselectUnit()
 	{
-		selectedUnit.Deselect();
 		ClearAbilitiesLabel();
 		ClearLabel(selectionInfoLabel);
 		selectedUnit = null;

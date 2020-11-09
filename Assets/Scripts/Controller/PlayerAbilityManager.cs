@@ -22,14 +22,12 @@ public class PlayerAbilityManager : MonoBehaviour
 		this.abilityPrefab = ability;
 		this.origin = origin;
 
-		if (ability is LineAttack)
+		if (ability is LineAbility)
 			activeAbilityVisual = AbilityVisuals.CrossDirection;
 		else if (ability is PointAbility)
-		{
 			activeAbilityVisual = AbilityVisuals.Point;
-			if (ability is CrossPointHeal)
-				activeAbilityVisual = AbilityVisuals.CrossPoint;
-		}
+		else if (ability is CrossPointAbility)
+			activeAbilityVisual = AbilityVisuals.CrossPoint;
 	}
 
 	#region Activating Ability

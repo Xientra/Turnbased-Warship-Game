@@ -39,16 +39,6 @@ public class PlayerUnit : Unit
 		}
 	}
 
-	public void Select()
-	{
-		Debug.LogWarning("Select in PlayerUnit is not implemented");
-	}
-
-	public void Deselect()
-	{
-		Debug.LogWarning("Deselect in PlayerUnit is not implemented");
-	}
-
 	public void StartMoving()
 	{
 		ghost.gameObject.SetActive(true);
