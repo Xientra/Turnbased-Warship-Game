@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class LineAbility : Ability
 {
-	[Header("Properties")]
-
-	public int damage;
-
-
-
-	public override void Activate(Unit origin)
+	public override bool Activate(Unit origin)
 	{
 		// calculate direction
 		Vector3 direction = Vector3.up;
@@ -43,7 +37,7 @@ public class LineAbility : Ability
 			}
 		}
 
-
 		Destroy(this.gameObject, 1.2f);
+		return true;
 	}
 }

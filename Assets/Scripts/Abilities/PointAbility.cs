@@ -13,7 +13,7 @@ public class PointAbility : Ability
 	//public int radius = 1;
 
 
-	public override void Activate(Unit origin)
+	public override bool Activate(Unit origin)
 	{
 		Tile targetTile = new Tile(targetPosition);
 
@@ -34,8 +34,11 @@ public class PointAbility : Ability
 					effect.AppyEffect(unitOnTile);
 			}
 		}
+		else
+			return false;
 
 		Destroy(this.gameObject, 1.2f);
+		return true;
 	}
 
 	private Tile ApplyInaccuracy()

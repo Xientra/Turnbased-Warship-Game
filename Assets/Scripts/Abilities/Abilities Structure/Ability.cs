@@ -26,5 +26,5 @@ public abstract class Ability : MonoBehaviour
 	[HideInInspector]
 	public Vector3 targetPosition;
 
-	public abstract void Activate(Unit origin);
+	public abstract bool Activate(Unit origin);
 }

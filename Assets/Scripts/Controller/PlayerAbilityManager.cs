@@ -110,6 +110,22 @@ public class PlayerAbilityManager : MonoBehaviour
 	{
 		PointVisual();
 		CrossDirectionVisual();
+
+		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
+		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
+
+		Vector2Int targetCoords = Tile.PositionToCoordinates(mouseWorldPos);
+		Vector2Int originCoords = Tile.PositionToCoordinates(origin.transform.position);
+
+
+		if (targetCoords.x == originCoords.x || targetCoords.y == originCoords.y)
+		{
+			// in coss
+		}
+		else
+		{
+			Debug.Log("Not in cross");
+		}
 	}
 
 	#endregion
@@ -125,10 +141,10 @@ public class PlayerAbilityManager : MonoBehaviour
 		Ability ability = Instantiate(abilityPrefab.gameObject, origin.transform.position, abilityPrefab.gameObject.transform.rotation).GetComponent<Ability>();
 
 		ability.targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-		//ability.targetUnit = ;
-		ability.Activate(origin);
-
-		origin.actionPointsRemaining -= ability.actionPointCost;
+		
+		bool succsess = ability.Activate(origin);
+		if (succsess)
+			origin.actionPointsRemaining -= ability.actionPointCost;
 
 		activeAbilityVisual = AbilityVisuals.none;
 		HideAllVisuals();

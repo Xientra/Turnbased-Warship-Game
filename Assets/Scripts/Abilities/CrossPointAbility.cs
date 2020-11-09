@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class CrossPointAbility : Ability
 {
-	public override void Activate(Unit origin)
+	public override bool Activate(Unit origin)
 	{
 		Tile targetTile = new Tile(targetPosition);
+		Vector2Int originCoords = Tile.PositionToCoordinates(origin.transform.position);
 
-		if (targetTile.Position.x == origin.transform.position.x || targetTile.Position.y == origin.transform.position.y)
+		if (targetTile.coordinates.x == originCoords.x || targetTile.coordinates.y == originCoords.y)
 		{
 			int activationDistance = targetTile.Distance(Tile.PositionToCoordinates(origin.transform.position));
 
@@ -25,10 +26,14 @@ public class CrossPointAbility : Ability
 						effect.AppyEffect(unitOnTile);
 				}
 			}
+			else
+				return false;
 		}
 		else
-			Debug.Log("No in cross");
+			return false;
+
 
 		Destroy(this.gameObject, 1.2f);
+		return true;
 	}
 }
