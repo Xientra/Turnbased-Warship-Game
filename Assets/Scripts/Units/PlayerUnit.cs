@@ -2,6 +2,8 @@
 
 public class PlayerUnit : Unit
 {
+
+	[Header("Player Unit:")]
 	public Ghost ghost;
 
 	private Camera cam;
@@ -31,7 +33,7 @@ public class PlayerUnit : Unit
 
 
 			int tilesMoved = (int)GridUtility.GetTileDistance(GridUtility.PositionToTile(ghost.transform.position), GridUtility.PositionToTile(transform.position));
-			
+
 			if (tilesMoved > movementRemaining)
 				ghost.lineRenderer.enabled = false;
 		}

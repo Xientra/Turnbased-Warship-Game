@@ -9,11 +9,10 @@ public class Unit : MonoBehaviour
 	[Tooltip("How far the unit can be moved in tiles.")]
 	public int movementPerRound = 4;
 	public int movementRemaining = 0;
-
+	[Space(5)]
 	public int maxHealth = 4;
 	public int health;
-
-
+	[Space(5)]
 	public int actionPointsPerRound = 1;
 	public int actionPointsRemaining = 0;
 
@@ -36,6 +35,17 @@ public class Unit : MonoBehaviour
 	public void TakeDamage(int amount)
 	{
 		health -= amount;
+		if (health <= 0)
+		{
+			health = 0;
+			Die();
+		}
+	}
+
+	public void ChangeHealth(int amount)
+	{
+		health += amount;
+		health = health > maxHealth ? maxHealth : health == 0 ? 0 : health;
 		if (health <= 0)
 		{
 			health = 0;

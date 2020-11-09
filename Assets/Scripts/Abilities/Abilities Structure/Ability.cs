@@ -6,7 +6,7 @@ public abstract class Ability : MonoBehaviour
 {
 
 	[Header("Visual")]
-	public GameObject visual;
+	public GameObject hitVisual;
 
 	[Header("Ability Base:")]
 
@@ -17,7 +17,9 @@ public abstract class Ability : MonoBehaviour
 	[Tooltip("How far away the target ability can be activated. -1 is infinite.")]
 	public int range = -1;
 
-	
+	public AbilityEffect effect;
+
+	// these will be set in script
 
 	[HideInInspector]
 	public Unit targetUnit;

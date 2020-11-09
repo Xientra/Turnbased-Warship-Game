@@ -32,14 +32,14 @@ public class LineAttack : Ability
 		{
 			Tile t = new Tile(origin.transform.position + direction * i);
 
-			Instantiate(visual, t.Position, visual.transform.rotation, transform);
+			Instantiate(hitVisual, t.Position, hitVisual.transform.rotation, transform);
 
 			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(t);
 			for (int j = 0; j < objectsOnTile.Length; j++)
 			{
 				Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();
 				if (unitOnTile != null && unitOnTile != origin)
-					unitOnTile.TakeDamage(damage);
+					effect.AppyEffect(unitOnTile);
 			}
 		}
 

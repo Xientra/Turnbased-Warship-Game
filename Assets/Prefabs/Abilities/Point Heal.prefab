@@ -40,13 +40,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6908615073840680085}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae790c52d5841d440b329d22e19e0ebb, type: 3}
+  m_Script: {fileID: 11500000, guid: 35fa3dee3366bb046808ffcf8991c01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visual: {fileID: 6288649472559625656, guid: 119b517ff092bf04f8e9ae6835cf24e3, type: 3}
+  hitVisual: {fileID: 6288649472559625656, guid: 119b517ff092bf04f8e9ae6835cf24e3,
+    type: 3}
   isInstant: 0
-  actionPointCost: 3
+  actionPointCost: 1
   range: -1
+  effect: {fileID: 11400000, guid: eeb3c4e1177b57b49adb64fb85e34239, type: 2}
   targetUnit: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
-  heal: 2
+  inaccuracy: 0

@@ -8,8 +8,7 @@ public class PointAttack : PointAbility
 
 	[Header("Point Attack")]
 
-	public int damage = 2;
-	public int inaccuracy = 2;
+	public int inaccuracy = 0;
 	//[Tooltip("The radius of the area around the target tile, that is affected")]
 	//public int radius = 1;
 
@@ -26,13 +25,13 @@ public class PointAttack : PointAbility
 
 			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(targetTile);
 
-			Instantiate(visual, targetTile.Position, visual.transform.rotation, transform);
+			Instantiate(hitVisual, targetTile.Position, hitVisual.transform.rotation, transform);
 
 			for (int j = 0; j < objectsOnTile.Length; j++)
 			{
 				Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();
 				if (unitOnTile != null)
-					unitOnTile.TakeDamage(damage);
+					effect.AppyEffect(unitOnTile);
 			}
 		}
 

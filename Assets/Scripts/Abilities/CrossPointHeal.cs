@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class CrossPointHeal : PointAbility
 {
-	[Header("Cross Point Heal:")]
-
-	public int heal = 2;
-
-
 	public override void Activate(Unit origin)
 	{
 		Tile targetTile = new Tile(targetPosition);
@@ -21,17 +16,15 @@ public class CrossPointHeal : PointAbility
 			{
 				GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(targetTile);
 
-				Instantiate(visual, targetTile.Position, visual.transform.rotation, transform);
+				Instantiate(hitVisual, targetTile.Position, hitVisual.transform.rotation, transform);
 
 				for (int j = 0; j < objectsOnTile.Length; j++)
 				{
 					Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();
 					if (unitOnTile != null)
-						unitOnTile.TakeDamage(-heal);
+						effect.AppyEffect(unitOnTile);
 				}
 			}
-			else
-				Debug.Log("To far away");
 		}
 		else
 			Debug.Log("No in cross");

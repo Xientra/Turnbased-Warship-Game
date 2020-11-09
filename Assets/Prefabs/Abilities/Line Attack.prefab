@@ -47,6 +47,7 @@ MonoBehaviour:
   isInstant: 0
   actionPointCost: 3
   range: 5
+  effect: {fileID: 11400000, guid: e52a878e48442c84db136a3542a587dc, type: 2}
   targetUnit: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   damage: 3

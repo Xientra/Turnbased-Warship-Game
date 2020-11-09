@@ -76,7 +76,7 @@ MonoBehaviour:
   movementRemaining: 0
   maxHealth: 5
   health: 5
-  actionPointsPerRound: 4
+  actionPointsPerRound: 2
   actionPointsRemaining: 0
   abilities:
   - {fileID: 0}

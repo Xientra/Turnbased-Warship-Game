@@ -16,7 +16,7 @@ public class PointHeal : PointAbility
 		{
 			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(targetTile);
 
-			Instantiate(visual, targetTile.Position, visual.transform.rotation, transform);
+			Instantiate(hitVisual, targetTile.Position, hitVisual.transform.rotation, transform);
 
 			for (int j = 0; j < objectsOnTile.Length; j++)
 			{
