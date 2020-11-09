@@ -46,7 +46,7 @@ MonoBehaviour:
   visual: {fileID: 6288649472559625656, guid: 35e70550108ea684e907199db2491673, type: 3}
   isInstant: 0
   actionPointCost: 3
-  range: -1
+  range: 5
   targetUnit: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   damage: 3

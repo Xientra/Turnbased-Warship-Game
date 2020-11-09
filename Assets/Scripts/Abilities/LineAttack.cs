@@ -26,11 +26,9 @@ public class LineAttack : Ability
 			direction = Vector3.down;
 
 
-		// activate
-		transform.position = GridUtility.SnapToGrid(transform.position + direction); // + direction, so that it starts one tile away from the origin
-
+		// starts at 1 so that the line begins one tile off the origin tile (where the firing unit is)
 		int effectiveRange = range == -1 ? 200 : range;
-		for (int i = 0; i < effectiveRange; i++)
+		for (int i = 1; i <= effectiveRange; i++)
 		{
 			Tile t = new Tile(origin.transform.position + direction * i);
 

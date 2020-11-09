@@ -25,7 +25,11 @@ public class PlayerAbilityManager : MonoBehaviour
 		if (ability is LineAttack)
 			activeAbilityVisual = AbilityVisuals.CrossDirection;
 		else if (ability is PointAbility)
+		{
 			activeAbilityVisual = AbilityVisuals.Point;
+			if (ability is CrossPointHeal)
+				activeAbilityVisual = AbilityVisuals.CrossPoint;
+		}
 	}
 
 	#region Activating Ability
@@ -96,7 +100,7 @@ public class PlayerAbilityManager : MonoBehaviour
 		else if (-mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
 			direction = new Vector3(0, -1, 0);
 
-		int visualRange = abilityPrefab.range == -1 ? 200 : (abilityPrefab.range - 1);
+		int visualRange = abilityPrefab.range == -1 ? 200 : (abilityPrefab.range);
 
 		lineRenderer.SetPosition(0, GridUtility.SnapToGrid(origin.transform.position));
 		lineRenderer.SetPosition(1, GridUtility.SnapToGrid(origin.transform.position) + direction.normalized * visualRange);
@@ -106,7 +110,8 @@ public class PlayerAbilityManager : MonoBehaviour
 	/// <summary> Highlights a point, that also lies on one of the four (x, -x, y, -y) directions </summary>
 	private void CrossPointVisual()
 	{
-
+		PointVisual();
+		CrossDirectionVisual();
 	}
 
 	#endregion
@@ -118,7 +123,7 @@ public class PlayerAbilityManager : MonoBehaviour
 			Debug.Log("not enougth action points");
 			return;
 		}
-			
+
 		Ability ability = Instantiate(abilityPrefab.gameObject, origin.transform.position, abilityPrefab.gameObject.transform.rotation).GetComponent<Ability>();
 
 		ability.targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
