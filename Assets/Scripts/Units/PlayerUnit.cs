@@ -32,7 +32,7 @@ public class PlayerUnit : Unit
 			ghost.lineRenderer.enabled = true;
 
 
-			int tilesMoved = (int)GridUtility.GetTileDistance(GridUtility.PositionToTile(ghost.transform.position), GridUtility.PositionToTile(transform.position));
+			int tilesMoved = Tile.Distance(Tile.PositionToCoordinates(ghost.transform.position), Tile.PositionToCoordinates(transform.position));
 
 			if (tilesMoved > movementRemaining)
 				ghost.lineRenderer.enabled = false;

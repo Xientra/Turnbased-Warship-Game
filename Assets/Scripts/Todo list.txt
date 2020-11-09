@@ -3,11 +3,11 @@ player can move his units
 
 enemy AI can move its units
 
-1: Replace Vector2Int with a Tile object, that has TileToPosition() and PosititionToTile() in it.
+Replace Vector2Int with a Tile object, that has TileToPosition() and PosititionToTile() in it.
 
 ---------------------------
 
-
+1: PlayerManager should move the ships compleatly alone ie PlayerUnit should not have any movement fucntionality
 
 
 enemy has no usefull AI

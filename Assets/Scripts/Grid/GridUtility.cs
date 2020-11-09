@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class GridUtility
 {
+
 	/// <summary> Returns the center position of the given tile. </summary>
+	[Obsolete("Use Tile.Position instead.")]
 	public static Vector3 TileToPosition(Vector2Int tile)
 	{
 		return new Vector3(tile.x + 0.5f, tile.y + 0.5f, 0);
 	}
 
 	/// <summary> Returns the tile the given position lies in. </summary>
+	[Obsolete("Use Tile.PositionToCoordinates(Vector3 position) instead.")]
 	public static Vector2Int PositionToTile(Vector3 position)
 	{
 		return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
