@@ -25,7 +25,7 @@ public class PlayerUnit : Unit
 		{
 			Vector3 mousePosWorld = cam.ScreenToWorldPoint(Input.mousePosition);
 
-			ghost.transform.position = GridUtility.Tile(mousePosWorld);
+			ghost.transform.position = Tile.SnapToGrid(mousePosWorld);
 
 			ghost.lineRenderer.SetPosition(0, ghost.transform.position);
 			ghost.lineRenderer.SetPosition(1, transform.position);
