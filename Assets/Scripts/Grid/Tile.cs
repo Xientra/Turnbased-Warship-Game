@@ -35,18 +35,25 @@ public class Tile
 		return Mathf.Abs(this.coordinates.x - coordinates.x) + Mathf.Abs(this.coordinates.y - coordinates.y);
 	}
 
-	// utility methods
-	private Vector3 CoordinatesToPosition(Vector2Int tile)
+	// ---------- static methods ---------- //
+
+	/// <summary> Returns the center position to the given coordinates. </summary>
+	public static Vector3 CoordinatesToPosition(Vector2Int coordinates)
 	{
 		return new Vector3(coordinates.x + 0.5f, coordinates.y + 0.5f, 0);
 	}
 
+	/// <summary> Returns the coordinates that respond to the given position. </summary>
 	public static Vector2Int PositionToCoordinates(Vector3 position)
 	{
 		return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
 	}
 
-	// static methods //
+	/// <summary> Returns the center position of the tile, the given position is in. </summary>
+	public static Vector3 SnapToGrid(Vector3 position)
+	{
+		return CoordinatesToPosition(PositionToCoordinates(position));
+	}
 
 	public static int Distance(Tile t1, Tile t2)
 	{

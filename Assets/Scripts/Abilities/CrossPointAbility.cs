@@ -15,16 +15,12 @@ public class CrossPointAbility : Ability
 
 			if (activationDistance <= range || range == -1)
 			{
-				GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(targetTile);
-
 				Instantiate(hitVisual, targetTile.Position, hitVisual.transform.rotation, transform);
 
-				for (int j = 0; j < objectsOnTile.Length; j++)
-				{
-					Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();
-					if (unitOnTile != null)
-						effect.AppyEffect(unitOnTile);
-				}
+				Unit unitOnTile = GridUtility.GetUnitOnTile(targetTile);
+				if (unitOnTile != null)
+					if (unitOnTile.faction != origin.faction || friendlyFire == true)
+						unitOnTile.ChangeHealth(damageAndHeal);
 			}
 			else
 				return false;

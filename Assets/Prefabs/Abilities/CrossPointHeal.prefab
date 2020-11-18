@@ -48,6 +48,6 @@ MonoBehaviour:
   isInstant: 0
   actionPointCost: 2
   range: 5
-  effect: {fileID: 11400000, guid: 4b739ae971e9c3847ab18ba83dca9ea0, type: 2}
+  effect: {fileID: 0}
   targetUnit: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}

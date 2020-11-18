@@ -12,12 +12,15 @@ public abstract class Ability : MonoBehaviour
 
 	public bool isInstant = false;
 
+	public bool friendlyFire = true;
+
 	public int actionPointCost = 1;
 
 	[Tooltip("How far away the target ability can be activated. -1 is infinite.")]
-	public int range = -1;
+	public float range = -1;
 
-	public AbilityEffect effect;
+	[Tooltip("Negative is Damage and positive is Heal.")]
+	public int damageAndHeal = -2;
 
 	// these will be set in script
 

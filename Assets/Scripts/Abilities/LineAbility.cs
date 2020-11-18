@@ -21,20 +21,17 @@ public class LineAbility : Ability
 
 
 		// starts at 1 so that the line begins one tile off the origin tile (where the firing unit is)
-		int effectiveRange = range == -1 ? 200 : range;
+		float effectiveRange = range == -1 ? 200 : range;
 		for (int i = 1; i <= effectiveRange; i++)
 		{
 			Tile t = new Tile(origin.transform.position + direction * i);
 
 			Instantiate(hitVisual, t.Position, hitVisual.transform.rotation, transform);
 
-			GameObject[] objectsOnTile = GridUtility.GetObjectsOnTile(t);
-			for (int j = 0; j < objectsOnTile.Length; j++)
-			{
-				Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();
-				if (unitOnTile != null && unitOnTile != origin)
-					effect.AppyEffect(unitOnTile);
-			}
+			Unit unitOnTile = GridUtility.GetUnitOnTile(t);
+			if (unitOnTile != null)
+				if (unitOnTile.faction != origin.faction || friendlyFire == true)
+					unitOnTile.ChangeHealth(damageAndHeal);
 		}
 
 		Destroy(this.gameObject, 1.2f);

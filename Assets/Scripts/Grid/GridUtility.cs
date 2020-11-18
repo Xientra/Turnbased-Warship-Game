@@ -1,27 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class GridUtility
 {
-
-	/// <summary> Returns the center position of the given tile. </summary>
-	[Obsolete("Use Tile.Position instead.")]
-	public static Vector3 TileToPosition(Vector2Int tile)
+	public static Unit GetUnitOnTile(Tile tile)
 	{
-		return new Vector3(tile.x + 0.5f, tile.y + 0.5f, 0);
-	}
+		GameObject[] objectsOnTile = GetObjectsOnTile(tile);
 
-	/// <summary> Returns the tile the given position lies in. </summary>
-	[Obsolete("Use Tile.PositionToCoordinates(Vector3 position) instead.")]
-	public static Vector2Int PositionToTile(Vector3 position)
-	{
-		return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
-	}
+		for (int j = 0; j < objectsOnTile.Length; j++)
+		{
+			Unit unitOnTile = objectsOnTile[j].GetComponent<Unit>();
+			if (unitOnTile != null)
+				return unitOnTile;
+		}
 
-	/// <summary> Returns the center position of the tile, the given position is in. </summary>
-	public static Vector3 SnapToGrid(Vector3 position)
-	{
-		return TileToPosition(PositionToTile(position));
+		return null;
 	}
 
 	public static GameObject[] GetObjectsOnTile(Tile tile)
@@ -29,9 +23,9 @@ public static class GridUtility
 		return GetObjectsOnTile(tile.coordinates);
 	}
 
-	public static GameObject[] GetObjectsOnTile(Vector2Int coordinates)
+	private static GameObject[] GetObjectsOnTile(Vector2Int coordinates)
 	{
-		Vector3 tilePos = TileToPosition(coordinates);
+		Vector3 tilePos = Tile.CoordinatesToPosition(coordinates);
 
 		RaycastHit2D[] hits = Physics2D.RaycastAll(tilePos, Vector3.forward, 10);
 		GameObject[] result = new GameObject[hits.Length];
@@ -41,12 +35,6 @@ public static class GridUtility
 
 		return result;
 	}
-
-	public static int GetTileDistance(Vector2Int t1, Vector2Int t2)
-	{
-		return Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y);
-	}
-
 
 
 	public static Vector2Int[] GetPointArea(Vector2Int point, int radius)
@@ -66,8 +54,26 @@ public static class GridUtility
 		return result;
 	}
 
-	public static Vector2Int[] GetTileLine(Vector2Int start, Vector2Int finish)
+	public static Tile[] GetTileLine(Tile start, Tile end)
 	{
-		throw new System.NotImplementedException();
+		List<Tile> result = new List<Tile>();
+
+		Vector2Int absDif = new Vector2Int(Mathf.Abs(start.coordinates.x - end.coordinates.x), Mathf.Abs(start.coordinates.y - end.coordinates.y));
+		float steps;
+
+		if (absDif.x > absDif.y)
+			steps = absDif.x;
+		else
+			steps = absDif.y;
+
+
+		for (int i = 0; i <= steps; i++)
+		{
+			Vector3 pos = Vector3.Lerp(start.Position, end.Position, i / steps);
+			result.Add(new Tile(pos));
+			//Debug.DrawLine(start.Position, pos);
+		}
+
+		return result.ToArray();
 	}
 }

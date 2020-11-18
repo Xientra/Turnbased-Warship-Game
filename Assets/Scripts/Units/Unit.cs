@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+	[Header("Stats:")]
+
+	[Tooltip("0 is the Player faction. 1 is the Enemy faction")]
+	public int faction = 0;
+
+	// public int armor
+	// public int evasion
+
 	[Header("Resources:")]
 
 	[Tooltip("How far the unit can be moved in tiles.")]

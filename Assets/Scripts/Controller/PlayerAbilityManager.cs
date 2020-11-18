@@ -71,7 +71,7 @@ public class PlayerAbilityManager : MonoBehaviour
 		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
 		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
 
-		targetTileMarker.transform.position = GridUtility.SnapToGrid(mouseWorldPos);
+		targetTileMarker.transform.position = Tile.SnapToGrid(mouseWorldPos);
 
 		if (abilityPrefab.range != -1 && Tile.Distance(Tile.PositionToCoordinates(origin.transform.position), Tile.PositionToCoordinates(mouseWorldPos)) > abilityPrefab.range)
 		{
@@ -98,10 +98,10 @@ public class PlayerAbilityManager : MonoBehaviour
 		else if (-mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
 			direction = new Vector3(0, -1, 0);
 
-		int visualRange = abilityPrefab.range == -1 ? 200 : (abilityPrefab.range);
+		float visualRange = abilityPrefab.range == -1 ? 200 : (abilityPrefab.range);
 
-		lineRenderer.SetPosition(0, GridUtility.SnapToGrid(origin.transform.position));
-		lineRenderer.SetPosition(1, GridUtility.SnapToGrid(origin.transform.position) + direction.normalized * visualRange);
+		lineRenderer.SetPosition(0, Tile.SnapToGrid(origin.transform.position));
+		lineRenderer.SetPosition(1, Tile.SnapToGrid(origin.transform.position) + direction.normalized * visualRange);
 		lineRenderer.enabled = true;
 	}
 
