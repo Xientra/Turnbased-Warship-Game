@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class CrossPointAbility : Ability
 {
-	public override bool Activate(Unit origin)
+	public override bool Activating(Unit origin, Vector3 mouseWorldPos)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override bool Activate(Unit origin, Vector3 mouseWorldPos)
 	{
 		Tile targetTile = new Tile(targetPosition);
 		Vector2Int originCoords = Tile.PositionToCoordinates(origin.transform.position);

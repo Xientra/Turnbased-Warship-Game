@@ -4,35 +4,41 @@ using UnityEngine;
 
 public class LineAbility : Ability
 {
-	public override bool Activate(Unit origin)
+	public override bool Activating(Unit origin, Vector3 mouseWorldPos)
 	{
-		// calculate direction
-		Vector3 direction = Vector3.up;
-		Vector3 mouseTransDiff = targetPosition - origin.transform.position;
-
-		if (mouseTransDiff.x > Mathf.Abs(mouseTransDiff.y))
-			direction = Vector3.right;
-		else if (-mouseTransDiff.x > Mathf.Abs(mouseTransDiff.y))
-			direction = Vector3.left;
-		if (mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
-			direction = Vector3.up;
-		else if (-mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
-			direction = Vector3.down;
-
-
-		// starts at 1 so that the line begins one tile off the origin tile (where the firing unit is)
-		float effectiveRange = range == -1 ? 200 : range;
-		for (int i = 1; i <= effectiveRange; i++)
+		if (range == -1 || Tile.Distance(Tile.PositionToCoordinates(origin.transform.position), Tile.PositionToCoordinates(mouseWorldPos)) <= range)
 		{
-			Tile t = new Tile(origin.transform.position + direction * i);
-
-			Instantiate(hitVisual, t.Position, hitVisual.transform.rotation, transform);
-
-			Unit unitOnTile = GridUtility.GetUnitOnTile(t);
-			if (unitOnTile != null)
-				if (unitOnTile.faction != origin.faction || friendlyFire == true)
-					unitOnTile.ChangeHealth(damageAndHeal);
+			GridVisual.singelton.DrawLine(origin.transform.position, mouseWorldPos);
+			GridVisual.singelton.MarkLine(GridUtility.GetTileLine(new Tile(origin.transform.position), new Tile(mouseWorldPos)));
 		}
+		else
+		{
+			Debug.Log("Out of range");
+			return false;
+		}
+
+		return true;
+	}
+
+	public override bool Activate(Unit origin, Vector3 mouseWorldPos)
+	{
+		if (range == -1 || Tile.Distance(Tile.PositionToCoordinates(origin.transform.position), Tile.PositionToCoordinates(mouseWorldPos)) <= range)
+		{
+			Tile[] line = GridUtility.GetTileLine(new Tile(origin.transform.position), new Tile(mouseWorldPos));
+
+			// starts at 1 so that the line begins one tile off the origin tile (where the firing unit is)
+			for (int i = 1; i < line.Length; i++)
+			{
+				Instantiate(hitVisual, line[i].Position, hitVisual.transform.rotation, transform);
+
+				Unit unitOnTile = GridUtility.GetUnitOnTile(line[i]);
+				if (unitOnTile != null)
+					if (unitOnTile.faction != origin.faction || friendlyFire == true)
+						unitOnTile.ChangeHealth(damageAndHeal);
+			}
+		}
+		else
+			return false;
 
 		Destroy(this.gameObject, 1.2f);
 		return true;

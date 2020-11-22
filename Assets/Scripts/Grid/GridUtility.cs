@@ -59,13 +59,8 @@ public static class GridUtility
 		List<Tile> result = new List<Tile>();
 
 		Vector2Int absDif = new Vector2Int(Mathf.Abs(start.coordinates.x - end.coordinates.x), Mathf.Abs(start.coordinates.y - end.coordinates.y));
-		float steps;
-
-		if (absDif.x > absDif.y)
-			steps = absDif.x;
-		else
-			steps = absDif.y;
-
+		
+		float steps = absDif.x > absDif.y ? absDif.x : absDif.y;
 
 		for (int i = 0; i <= steps; i++)
 		{

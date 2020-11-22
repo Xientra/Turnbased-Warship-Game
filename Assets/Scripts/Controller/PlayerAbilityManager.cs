@@ -14,26 +14,35 @@ public class PlayerAbilityManager : MonoBehaviour
 	private Vector3 targetPosition;
 	private Vector3 direction;
 
-	Ability abilityPrefab;
-	Unit origin;
+	private Ability abilityPrefab;
+	private Ability ability;
+	private Unit origin;
 
 	public void UseAbility(Unit origin, Ability ability)
 	{
+		// create and save everything needed for the activation.
 		this.abilityPrefab = ability;
+		this.ability = Instantiate(abilityPrefab, origin.transform.position, Quaternion.identity);
 		this.origin = origin;
 
+		// is now activating
+		activeAbilityVisual = AbilityVisuals.Point;
+
+		/*
 		if (ability is LineAbility)
 			activeAbilityVisual = AbilityVisuals.CrossDirection;
 		else if (ability is PointAbility)
 			activeAbilityVisual = AbilityVisuals.Point;
 		else if (ability is CrossPointAbility)
 			activeAbilityVisual = AbilityVisuals.CrossPoint;
+			*/
 	}
 
 	#region Activating Ability
 
 	void Update()
 	{
+		/*
 		switch (activeAbilityVisual)
 		{
 			case AbilityVisuals.Point:
@@ -55,61 +64,31 @@ public class PlayerAbilityManager : MonoBehaviour
 
 				break;
 		}
+		*/
+
 
 		if (IsActivatingAbility)
 		{
-			if (Input.GetMouseButtonDown(0))
+			Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
+			mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
+
+			bool canBeActivated = ability.Activating(origin, mouseWorldPos);
+
+			if (canBeActivated && Input.GetMouseButtonDown(0))
 			{
 				ActivateAbility();
+
+				// stop activating
 			}
 		}
 	}
 
-	/// <summary> Highlights a specific tile </summary>
-	private void PointVisual()
-	{
-		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
-		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
-
-		targetTileMarker.transform.position = Tile.SnapToGrid(mouseWorldPos);
-
-		if (abilityPrefab.range != -1 && Tile.Distance(Tile.PositionToCoordinates(origin.transform.position), Tile.PositionToCoordinates(mouseWorldPos)) > abilityPrefab.range)
-		{
-			Debug.Log("Out of range");
-		}
-
-		targetTileMarker.SetActive(true);
-	}
-
-	/// <summary> Highlights only one of the four (x, -x, y, -y) directions </summary>
-	private void CrossDirectionVisual()
-	{
-		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
-		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
-
-		Vector3 mouseTransDiff = mouseWorldPos - origin.transform.position;
-
-		if (mouseTransDiff.x > Mathf.Abs(mouseTransDiff.y))
-			direction = new Vector3(1, 0, 0);
-		else if (-mouseTransDiff.x > Mathf.Abs(mouseTransDiff.y))
-			direction = new Vector3(-1, 0, 0);
-		if (mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
-			direction = new Vector3(0, 1, 0);
-		else if (-mouseTransDiff.y > Mathf.Abs(mouseTransDiff.x))
-			direction = new Vector3(0, -1, 0);
-
-		float visualRange = abilityPrefab.range == -1 ? 200 : (abilityPrefab.range);
-
-		lineRenderer.SetPosition(0, Tile.SnapToGrid(origin.transform.position));
-		lineRenderer.SetPosition(1, Tile.SnapToGrid(origin.transform.position) + direction.normalized * visualRange);
-		lineRenderer.enabled = true;
-	}
 
 	/// <summary> Highlights a point, that also lies on one of the four (x, -x, y, -y) directions </summary>
 	private void CrossPointVisual()
 	{
-		PointVisual();
-		CrossDirectionVisual();
+		//PointVisual();
+		//CrossDirectionVisual();
 
 		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
 		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
@@ -138,11 +117,14 @@ public class PlayerAbilityManager : MonoBehaviour
 			return;
 		}
 
+		Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
+		mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
+
 		Ability ability = Instantiate(abilityPrefab.gameObject, origin.transform.position, abilityPrefab.gameObject.transform.rotation).GetComponent<Ability>();
 
-		ability.targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+		ability.targetPosition = mouseWorldPos;
 		
-		bool succsess = ability.Activate(origin);
+		bool succsess = ability.Activate(origin, mouseWorldPos);
 		if (succsess)
 			origin.actionPointsRemaining -= ability.actionPointCost;
 

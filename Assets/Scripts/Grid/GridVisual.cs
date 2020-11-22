@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class GridVisual : MonoBehaviour
 {
-	//public Vector2 halfsize = new Vector2(10, 5);
-	//public Color color;
+	public static GridVisual singelton;
+
+	public LineRenderer lineRenderer;
 
 	public Vector3 vs = new Vector3(0, 0, 0);
 	public Vector3 vt = new Vector3(6, 6, 0);
 
+	private void Awake()
+	{
+		singelton = this;
+	}
+
 	void Start()
 	{
-		
+
 	}
 
 	void Update()
 	{
+		/*
 		Tile s = new Tile(vs);
 		Tile t = new Tile(vt);
 
@@ -29,9 +36,39 @@ public class GridVisual : MonoBehaviour
 		{
 			DebugDrawX(tiles[i].Position, 0.5f, Color.red);
 		}
+		*/
 	}
 
-	private void OnDrawGizmos_NOT()
+	private void LateUpdate()
+	{
+
+	}
+
+	public void MarkTile(Tile tile)
+	{
+		DebugDrawX(tile.Position, 0.5f, Color.red);
+	}
+
+	public void MarkLine(Tile[] tiles)
+	{
+		for (int i = 0; i < tiles.Length; i++)
+			DebugDrawX(tiles[i].Position, 0.5f, Color.red);
+	}
+
+	public void DrawLine(Tile from, Tile to)
+	{
+		Debug.DrawLine(from.Position, to.Position, Color.red);
+		//lineRenderer.enabled = true;
+		//lineRenderer.positionCount = 2;
+		//lineRenderer.SetPosition(0, from.Position);
+		//lineRenderer.SetPosition(1, to.Position);
+	}
+	public void DrawLine(Vector3 from, Vector3 to)
+	{
+		Debug.DrawLine(from, to, Color.red);
+	}
+
+	private void OnDrawGizmos()
 	{
 		/*
 		for (int y = (int)-halfsize.y; y <= halfsize.y; y++)

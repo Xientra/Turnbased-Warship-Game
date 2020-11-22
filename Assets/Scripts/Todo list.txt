@@ -12,6 +12,7 @@ Replace Vector2Int with a Tile object, that has TileToPosition() and PosititionT
 0: THE ABILITES SHOULD HAVE, I REPEAT, THEY SHOULD HAVE THE VISUAL IN THEMSELFS BECAUSE THE ENEMY ALSO NEEDS THE VISUAL!!!!!!
 =============================================================================================================================
 
+2: Line Ability Should go int the infinite and pierce 
 
 1: PlayerManager should move the ships compleatly alone ie PlayerUnit should not have any movement fucntionality
 

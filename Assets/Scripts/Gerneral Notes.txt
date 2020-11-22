@@ -24,8 +24,37 @@ One dmg dealer and one tank / support that can give shields or tank shots / draw
 
 
 
+Stats:
+	Defence: flat damage reduction
+	Evasion: makes you harder to hit
+
+	Damage: flat damage
+	Accuracy: how likely it is to hit
 
 
+	then there are aoe attacks that allways hit. Only at the edges of the aoe do you have the opportunity to miss?
+
+	it does not make sense for giant warships to evade though.
+
+	hull: health
+	Shields: idk, maybe resistance to certian attacks. so yu need shield breaker and hull damager
+
+
+Different Types of stuff an actual warship has:
+
+	Offensive:
+	- Standart Lasers Cannons
+	- Standart Cannons
+	- Missiles
+	- Line Laser
+	- Heat Laser 
+	- emp attacks (malevolence)
+
+	Defensive:
+	- Hull integrity
+	- (Spherical or On-Hull) Shield
+	- external shield wall
+	- interceptor missiles
 
 
 

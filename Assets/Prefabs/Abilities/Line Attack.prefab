@@ -45,8 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitVisual: {fileID: 6288649472559625656, guid: 35e70550108ea684e907199db2491673,
     type: 3}
-  isInstant: 0
-  actionPointCost: 3
+  friendlyFire: 1
+  actionPointCost: 2
   range: 5
   damageAndHeal: -3
   targetUnit: {fileID: 0}

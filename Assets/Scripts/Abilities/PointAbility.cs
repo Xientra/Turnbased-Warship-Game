@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PointAbility : Ability
 {
@@ -12,8 +9,27 @@ public class PointAbility : Ability
 	//[Tooltip("The radius of the area around the target tile, that is affected")]
 	//public int radius = 1;
 
+	/// <summary> Will be called in PlayerAbilityManager repeatedly unitl the ability is used </summary>
+	public override bool Activating(Unit origin, Vector3 mouseWorldPos)
+	{
+		//mouseWorldPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
 
-	public override bool Activate(Unit origin)
+		GridVisual.singelton.MarkTile(new Tile(mouseWorldPos));
+
+		if (range != -1 && Tile.Distance(Tile.PositionToCoordinates(origin.transform.position), Tile.PositionToCoordinates(mouseWorldPos)) > range)
+		{
+			Debug.Log("Out of range");
+			return false;
+		}
+		else
+		{
+			GridVisual.singelton.DrawLine(origin.transform.position, mouseWorldPos);
+		}
+
+		return true;
+	}
+
+	public override bool Activate(Unit origin, Vector3 mouseWorldPos)
 	{
 		Tile targetTile = new Tile(targetPosition);
 
